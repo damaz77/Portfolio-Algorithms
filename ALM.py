@@ -181,7 +181,7 @@ def alm_bktr(x_0, covMatrix, epsilon):
                     mu_2 = mu_2/beta
         #fine BACKTRACKING  
         init_time = time.clock()
-        if(numpy.linalg.norm(x_k_plus_1-x_k)<0.00000001) and (numpy.linalg.norm(y_k_plus_1-y_k)<0.00000001):
+        if(numpy.linalg.norm(x_k_plus_1-x_k)<1e-07) and (numpy.linalg.norm(y_k_plus_1-y_k)<1e-07):
             convergence = True 
             conv_time = conv_time + time.clock()-init_time  
         else:    

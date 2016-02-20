@@ -18,7 +18,7 @@ def computeOptStep(x,i,j,covMatrix,theta, sigma_dot_x, bounds):
     coeff = [4*A,3*B,2*C,D]
     
     roots = np.roots(coeff)  
-    #mettere a posto i bound
+    
     roots = np.append(roots,bounds[0])
 
     min_fun = compute_function(x[j], A, B, C, D, E)
@@ -27,7 +27,7 @@ def computeOptStep(x,i,j,covMatrix,theta, sigma_dot_x, bounds):
     for k in range(len(roots)):
         root = roots[k]
         if not isinstance(root, complex):
-            #bound check
+            
             if (root>=bounds[0]) and (root <= x[j]):
                 act_fun = compute_function(root, A, B, C, D, E)
                 if(act_fun<min_fun):
@@ -39,8 +39,14 @@ def computeOptStep(x,i,j,covMatrix,theta, sigma_dot_x, bounds):
                     act_fun = compute_function(root.real, A, B, C, D, E)
                     if(act_fun<min_fun):
                         min_fun = act_fun
-                        best_root = root.real                  
-    return x[j]- best_root
+                        best_root = root.real        
+                         
+    alpha =  x[j] - best_root
+    
+    if alpha >= bounds[1]-x[i]:
+        return bounds[1] - x[i]        
+    else:
+        return alpha
         
 def computeA(i,j,covMatrix):
     left = (covMatrix[i,i] - covMatrix[i,j])**2
